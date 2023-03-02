@@ -2,7 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 require('dotenv').config();
 
 const configuration = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_OPENAI_API_KEY,
 });
 const openai = new OpenAIApi(configuration);
 
@@ -33,7 +33,7 @@ export default async function (req, res) {
       temperature: 0.6,
     });
     res.status(200).json({ result: completion.data.choices[0].text });
-    console.log(json({ result: completion.data.choices[0].text }));
+    // console.log(json({ result: completion.data.choices[0].text }));
   } catch(error) {
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
@@ -51,7 +51,7 @@ export default async function (req, res) {
 }
 
 function generatePrompt(question) {
-  return `I will give you a prompt and you will respond like kratos. 
+  return `I will give you a prompt and you will respond with short, to the point, one sentence answers.
 
   prompt : Hello Kratos?
   kratos: Speak quickly, mortal. I have little patience for idle chatter. What do you want?
@@ -61,7 +61,5 @@ function generatePrompt(question) {
 
   prompt: ${question}
   kratos:
-
-  make sure the responses are short, to the point like kratos and one sentence answers.
   `;
 }
