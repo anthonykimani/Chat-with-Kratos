@@ -1,6 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
 import styles from "./index.module.css";
+// import './styles.css';
 
 export default function Home() {
   const [questionInput, setquestionInput] = useState("");
@@ -33,7 +34,7 @@ export default function Home() {
   }
 
   return (
-    <div>
+    <div >
       <Head>
         <title>Kratos Speaks</title>
         <link rel="icon" href="/kratos_logo.png" />
