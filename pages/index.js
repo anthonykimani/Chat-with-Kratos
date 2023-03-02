@@ -3,7 +3,7 @@ import { useState } from "react";
 import styles from "./index.module.css";
 
 export default function Home() {
-  const [animalInput, setAnimalInput] = useState("");
+  const [questionInput, setquestionInput] = useState("");
   const [result, setResult] = useState();
 
   async function onSubmit(event) {
@@ -14,7 +14,7 @@ export default function Home() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ animal: animalInput }),
+        body: JSON.stringify({ question: questionInput }),
       });
 
       const data = await response.json();
@@ -22,8 +22,9 @@ export default function Home() {
         throw data.error || new Error(`Request failed with status ${response.status}`);
       }
 
+      console.log(data.result);
       setResult(data.result);
-      setAnimalInput("");
+      setquestionInput("");
     } catch(error) {
       // Consider implementing your own error handling logic here
       console.error(error);
@@ -34,22 +35,22 @@ export default function Home() {
   return (
     <div>
       <Head>
-        <title>OpenAI Quickstart</title>
-        <link rel="icon" href="/dog.png" />
+        <title>Kratos Speaks</title>
+        <link rel="icon" href="/kratos_logo.png" />
       </Head>
 
       <main className={styles.main}>
-        <img src="/dog.png" className={styles.icon} />
-        <h3>Name my pet</h3>
+        <img src="/kratos_logo.png" className={styles.icon} />
+        <h3>Seek Kratos the God of War</h3>
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            name="animal"
-            placeholder="Enter an animal"
-            value={animalInput}
-            onChange={(e) => setAnimalInput(e.target.value)}
+            name="question"
+            placeholder="Speak quickly, mortal. I have little patience for idle chatter. What do you want?"
+            value={questionInput}
+            onChange={(e) => setquestionInput(e.target.value)}
           />
-          <input type="submit" value="Generate names" />
+          <input type="submit" value="Respond to the Ghost of Sparta" />
         </form>
         <div className={styles.result}>{result}</div>
       </main>

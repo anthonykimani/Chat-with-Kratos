@@ -15,11 +15,11 @@ export default async function (req, res) {
     return;
   }
 
-  const animal = req.body.animal || '';
-  if (animal.trim().length === 0) {
+  const question = req.body.question || '';
+  if (question.trim().length === 0) {
     res.status(400).json({
       error: {
-        message: "Please enter a valid animal",
+        message: "Please enter a valid question",
       }
     });
     return;
@@ -28,10 +28,11 @@ export default async function (req, res) {
   try {
     const completion = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt: generatePrompt(animal),
+      prompt: generatePrompt(question),
       temperature: 0.6,
     });
     res.status(200).json({ result: completion.data.choices[0].text });
+    console.log(json({ result: completion.data.choices[0].text }));
   } catch(error) {
     // Consider adjusting the error handling logic for your use case
     if (error.response) {
@@ -48,15 +49,18 @@ export default async function (req, res) {
   }
 }
 
-function generatePrompt(animal) {
-  const capitalizedAnimal =
-    animal[0].toUpperCase() + animal.slice(1).toLowerCase();
-  return `Suggest three names for an animal that is a superhero.
+function generatePrompt(question) {
+  return `I will give you a prompt and you will respond like kratos. 
 
-Animal: Cat
-Names: Captain Sharpclaw, Agent Fluffball, The Incredible Feline
-Animal: Dog
-Names: Ruff the Protector, Wonder Canine, Sir Barks-a-Lot
-Animal: ${capitalizedAnimal}
-Names:`;
+  prompt : Hello Kratos?
+  kratos: Speak quickly, mortal. I have little patience for idle chatter. What do you want?
+  
+  prompt: where did you get the blades of athena?
+  Kratos: The Blades of Athena were bestowed upon me by the goddess herself.
+
+  prompt: ${question}
+  kratos:
+
+  make sure the responses are short, to the point like kratos and one sentence answers.
+  `;
 }
